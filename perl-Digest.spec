@@ -2,14 +2,12 @@
 
 Name:           %{?scl_prefix}perl-Digest
 Version:        1.17
-Release:        367%{?dist}
+Release:        366%{?dist}
 Summary:        Modules that calculate message digests
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Digest/
 Source0:        http://www.cpan.org/authors/id/G/GA/GAAS/Digest-%{version}.tar.gz
-# Avoid loading optional modules from default . (CVE-2016-1238)
-Patch0:         Digest-0.17-CVE-2016-1238-prevent-loading-optional-modules-from-.patch
 BuildArch:      noarch
 BuildRequires:  %{?scl_prefix}perl-generators
 BuildRequires:  %{?scl_prefix}perl(Carp)
@@ -31,7 +29,6 @@ bytes or bits.
 
 %prep
 %setup -q -n Digest-%{version}
-%patch0 -p1
 chmod -x digest-bench
 
 %build
@@ -52,9 +49,6 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
-* Tue Aug 02 2016 Jitka Plesnikova <jplesnik@redhat.com> - 1.17-367
-- Avoid loading optional modules from default . (CVE-2016-1238)
-
 * Mon Jul 11 2016 Petr Pisar <ppisar@redhat.com> - 1.17-366
 - SCL
 
