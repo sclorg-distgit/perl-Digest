@@ -2,7 +2,7 @@
 
 Name:           %{?scl_prefix}perl-Digest
 Version:        1.17
-Release:        451%{?dist}
+Release:        452%{?dist}
 Summary:        Modules that calculate message digests
 License:        GPL+ or Artistic
 URL:            https://metacpan.org/release/Digest
@@ -16,6 +16,7 @@ BuildRequires:  make
 BuildRequires:  %{?scl_prefix}perl-interpreter
 BuildRequires:  %{?scl_prefix}perl-generators
 BuildRequires:  %{?scl_prefix}perl(Carp)
+BuildRequires:  %{?scl_prefix}perl(Config)
 BuildRequires:  %{?scl_prefix}perl(Exporter)
 BuildRequires:  %{?scl_prefix}perl(ExtUtils::MakeMaker)
 BuildRequires:  %{?scl_prefix}perl(MIME::Base64)
@@ -36,6 +37,7 @@ bytes or bits.
 %setup -q -n Digest-%{version}
 %patch0 -p1
 chmod -x digest-bench
+%{?scl:scl enable %{scl} '}perl -MConfig -i -pe %{?scl:'"}'%{?scl:"'}s{^#!/usr/bin/perl}{$Config{startperl}}%{?scl:'"}'%{?scl:"'} digest-bench%{?scl:'}
 
 %build
 %{?scl:scl enable %{scl} '}perl Makefile.PL INSTALLDIRS=vendor && make %{?_smp_mflags}%{?scl:'}
@@ -55,6 +57,9 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_mandir}/man3/*
 
 %changelog
+* Wed Mar 25 2020 Petr Pisar <ppisar@redhat.com> - 1.17-452
+- Normalize the shebangs (bug #1817126)
+
 * Fri Dec 20 2019 Jitka Plesnikova <jplesnik@redhat.com> - 1.17-451
 - SCL
 
